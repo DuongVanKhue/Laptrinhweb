@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Sản phẩm - L'Oreal Paris</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      color: #333;
+      background: #f3f7f9;
+    }
+    .header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      background: transparent;
+      padding: 20px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+    }
+    .logo {
+      font-size: 28px;
+      font-family: 'Playfair Display', serif;
+      color: #000;
+      white-space: nowrap;
+      font-weight: bold;
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s ease;
+      white-space: nowrap;
+    }
+    .nav a:hover {
+      color: #1976d2;
+    }
+    .banner {
+      position: relative;
+      overflow: hidden;
+    }
+    .banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease, filter 0.6s ease;
+    }
+    .search-filter {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      margin-top: 20px;
+      position: relative;
+    }
+    .search-filter input[type="text"],
+    .search-filter select {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #bcdff1;
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      font-size: 15px;
+      background-color: #e3eef4;
+      transition: all 0.2s ease;
+      color: #2b6777;
+    }
+    .search-filter input[type="text"] {
+      width: 65%;
+      padding-left: 35px;
+    }
+    .search-filter .right-filters {
+      display: flex;
+      justify-content: flex-end;
+      width: 35%;
+      gap: 20px;
+    }
+    .search-filter select {
+      padding-left: 30px;
+      width: 100%;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 50px 20px;
+      padding: 40px 10%;
+    }
+    .product {
+      background: #e3eef4;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      min-height: 280px;
+      overflow: hidden;
+    }
+    .product:hover {
+      background: #bcdff1;
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+    .product img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+    .product h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: #2b6777;
+      cursor: pointer;
+    }
+    .product p {
+      color: #e91e63;
+      font-weight: bold;
+      margin: 0 0 12px;
+      flex-grow: 1;
+    }
+    .product button {
+      background: linear-gradient(to right, #e91e63, #f06292);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      width: 100%;
+      margin-top: auto;
+    }
+    .product button:hover {
+      background: linear-gradient(to right, #d81b60, #ec407a);
+      transform: translateY(-2px);
+    }
+    .pagination {
+      text-align: center;
+      margin: 20px 0 40px;
+    }
+    .pagination a {
+      display: inline-block;
+      margin: 0 6px;
+      padding: 8px 16px;
+      background: #fff;
+      color: #2b6777;
+      border-radius: 6px;
+      text-decoration: none;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .pagination a.active {
+      background: #2b6777;
+      color: #fff;
+    }
+  
+                /* Custom CSS Improvements */
+                body {
+                    font-family: 'Segoe UI', sans-serif;
+                    background-color: #f4f7f6;
+                    color: #333;
+                    margin: 0;
+                    padding: 0;
+                    transition: all 0.3s ease;
+                }
+                h1, h2, h3 {
+                    color: #333;
+                    font-weight: bold;
+                }
+                .btn:hover {
+                    background-color: #007bff;
+                    color: white;
+                    transition: all 0.3s ease;
+                }
+                .navbar {
+                    background-color: #003366;
+                }
+                .navbar a {
+                    color: #ffffff;
+                }
+                .navbar a:hover {
+                    color: #f4f4f4;
+                    text-decoration: underline;
+                }
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }
+                .card {
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    border-radius: 10px;
+                    overflow: hidden;
+                }
+                .card-body {
+                    padding: 20px;
+                    background-color: #ffffff;
+                }
+                .fade-in {
+                    animation: fadeIn 1.5s ease-in;
+                }
+                @keyframes fadeIn {
+                    0% {
+                        opacity: 0;
+                    }
+                    100% {
+                        opacity: 1;
+                    }
+                }
+                /* Responsive Design */
+                @media (max-width: 768px) {
+                    .container {
+                        padding: 10px;
+                    }
+                }
+            </style>
+</head>
+<body>
+<header class="header">
+<div class="logo">L'Oreal Paris</div>
+<nav class="nav">
+<a href="/">Trang chủ</a>
+<a href="/introduce">Giới thiệu</a>
+<a class="active" href="/products">Sản phẩm</a>
+<a href="/cart">Giỏ hàng</a>
+<a href="/contact">Liên hệ</a>
+<a href="/login">Đăng nhập/Đăng ký</a>
+</nav>
+</header>
+<section class="banner">
+<img alt="Banner mỹ phẩm" src="https://shop.aldocoppola.com/wp-content/uploads/2023/02/banner-oreal.jpg"/>
+</section>
+<div class="search-filter">
+<div style="position: relative; flex-grow: 1;">
+<i class="fas fa-search"></i>
+<input id="searchInput" placeholder="Tìm kiếm sản phẩm..." type="text"/>
+</div>
+<div class="right-filters">
+<div style="position: relative; flex-grow: 1;">
+<select id="categorySelect">
+<option value="tat-ca">Danh mục sản phẩm</option>
+<option value="toc">Chăm sóc tóc</option>
+<option value="duong-da">Dưỡng da</option>
+<option value="lam-sach">Làm sạch</option>
+<option value="son-moi">Son môi</option>
+</select>
+</div>
+<div style="position: relative; flex-grow: 1;">
+<select id="priceSelect">
+<option value="all">Mức giá</option>
+<option value="low">Dưới 300,000₫</option>
+<option value="medium">300,000₫ - 600,000₫</option>
+<option value="high">Trên 600,000₫</option>
+</select>
+</div>
+</div>
+</div>
+<section class="product-grid" id="product-grid">
+<!-- Products will be loaded here -->
+</section>
+<div class="pagination" id="pagination"></div>
+<script>
+  let currentPage = 1;
+  let currentCategory = 'tat-ca';
+  let currentSearch = '';
+  let currentPriceRange = 'all';
+
+  // Check login status
+  async function checkLoginStatus() {
+    try {
+      const response = await fetch('/api/user');
+      if (response.ok) {
+        const user = await response.json();
+        updateNavForLoggedInUser(user);
+      }
+    } catch (error) {
+      console.log('User not logged in');
+    }
+  }
+
+  function updateNavForLoggedInUser(user) {
+    const nav = document.querySelector("nav.nav");
+    const loginLink = [...nav.children].find(a => a.textContent.includes("Đăng nhập"));
+    if (loginLink) loginLink.remove();
+
+    // Add cart badge to cart link
+    const cartLink = [...nav.children].find((a) => a.textContent.includes("Giỏ hàng"))
+    if (cartLink && !cartLink.querySelector('.cart-badge')) {
+      cartLink.classList.add('cart-link');
+      const badge = document.createElement('span');
+      badge.className = 'cart-badge hidden';
+      badge.textContent = '(0)';
+      cartLink.appendChild(badge);
+    }
+
+    const greeting = document.createElement("span");
+    greeting.textContent = `Xin chào, ${user.name}`;
+    greeting.style.marginLeft = "20px";
+    greeting.style.fontWeight = "bold";
+    nav.appendChild(greeting);
+
+    const logout = document.createElement("a");
+    logout.textContent = "Đăng xuất";
+    logout.href = "#";
+    logout.style.marginLeft = "20px";
+    logout.onclick = async function () {
+      await fetch('/api/logout', { method: 'POST' });
+      location.reload();
+    };
+    nav.appendChild(logout);
+
+    // Update cart badge after login
+    updateCartBadge();
+  }
+
+  // Load products
+  async function loadProducts(page = 1) {
+    try {
+      const params = new URLSearchParams({
+        page: page,
+        per_page: 8,
+        category: currentCategory,
+        search: currentSearch,
+        price_range: currentPriceRange
+      });
+
+      const response = await fetch(`/api/products?${params}`);
+      const data = await response.json();
+      
+      displayProducts(data.products);
+      displayPagination(data.current_page, data.pages);
+      
+    } catch (error) {
+      console.error('Error loading products:', error);
+    }
+  }
+
+  function displayProducts(products) {
+    const container = document.getElementById('product-grid');
+    container.innerHTML = '';
+    
+    products.forEach(product => {
+      const productDiv = document.createElement('div');
+      productDiv.className = 'product';
+      productDiv.innerHTML = `
+        <a href="/product-detail?id=${product.id}">
+          <img src="${product.image_url}" alt="${product.name}">
+        </a>
+        <a href="/product-detail?id=${product.id}">
+          <h3>${product.name}</h3>
+        </a>
+        <p>${product.price.toLocaleString()}₫</p>
+        <button onclick="addToCart(${product.id})">Thêm vào giỏ</button>
+      `;
+      container.appendChild(productDiv);
+    });
+  }
+
+  function displayPagination(currentPage, totalPages) {
+    const container = document.getElementById('pagination');
+    container.innerHTML = '';
+    
+    for (let i = 1; i <= totalPages; i++) {
+      const a = document.createElement('a');
+      a.href = '#';
+      a.textContent = i;
+      a.className = i === currentPage ? 'active' : '';
+      a.onclick = (e) => {
+        e.preventDefault();
+        loadProducts(i);
+      };
+      container.appendChild(a);
+    }
+  }
+
+  // Event listeners
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    currentSearch = e.target.value;
+    loadProducts(1);
+  });
+
+  document.getElementById('categorySelect').addEventListener('change', (e) => {
+    currentCategory = e.target.value;
+    loadProducts(1);
+  });
+
+  document.getElementById('priceSelect').addEventListener('change', (e) => {
+    currentPriceRange = e.target.value;
+    loadProducts(1);
+  });
+
+  // Get category from URL
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  // Initialize page
+  document.addEventListener('DOMContentLoaded', function() {
+    checkLoginStatus();
+    
+    const categoryFromURL = getQueryParam('category');
+    if (categoryFromURL) {
+      currentCategory = categoryFromURL;
+      document.getElementById('categorySelect').value = categoryFromURL;
+    }
+    
+    loadProducts(1);
+  });
+</script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

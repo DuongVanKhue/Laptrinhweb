@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Đăng nhập / Đăng ký - L'Oreal Paris</title>
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      color: #333;
+      background: #f3f7f9;
+    }
+    .header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      background: transparent;
+      padding: 20px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+    }
+    .logo {
+      font-size: 28px;
+      font-family: 'Playfair Display', serif;
+      color: #000;
+      white-space: nowrap;
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s ease;
+      white-space: nowrap;
+    }
+    .nav a:hover {
+      color: #1976d2;
+    }
+    .banner {
+      position: relative;
+      overflow: hidden;
+    }
+    .banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease, filter 0.6s ease;
+    }
+    .auth-container { 
+      max-width: 500px; 
+      margin: 80px auto; 
+      background: #fff; 
+      padding: 30px; 
+      border-radius: 12px; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+    }
+    .auth-tabs { 
+      display: flex; 
+      justify-content: center; 
+      margin-bottom: 20px; 
+    }
+    .auth-tabs button { 
+      padding: 10px 20px; 
+      border: none; 
+      background: #ccc; 
+      cursor: pointer; 
+      border-radius: 6px 6px 0 0; 
+    }
+    .auth-tabs button.active { 
+      background: #2b6777; 
+      color: white; 
+    }
+    .auth-form { 
+      display: none; 
+    }
+    .auth-form.active { 
+      display: block; 
+    }
+    .auth-form label { 
+      display: block; 
+      margin-top: 15px; 
+    }
+    .auth-form input { 
+      width: 100%; 
+      padding: 10px; 
+      border: 1px solid #ccc; 
+      border-radius: 6px; 
+      margin-top: 5px; 
+      box-sizing: border-box;
+    }
+    .auth-form .error { 
+      color: red; 
+      font-size: 14px; 
+    }
+    .auth-form button { 
+      margin-top: 20px; 
+      background: #2b6777; 
+      color: white; 
+      border: none; 
+      padding: 10px; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      width: 100%;
+    }
+    .link { 
+      color: #2b6777; 
+      font-size: 14px; 
+      cursor: pointer; 
+      text-decoration: underline; 
+      margin-top: 10px; 
+      display: block; 
+      text-align: right; 
+    }
+    #toast-container {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .toast {
+      background-color: #333;
+      color: white;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      opacity: 0.9;
+    }
+
+    .toast.success {
+      background-color: #4CAF50;
+    }
+
+    .toast.error {
+      background-color: #F44336;
+    }
+  
+                /* Custom CSS Improvements */
+                body {
+                    font-family: 'Segoe UI', sans-serif;
+                    background-color: #f4f7f6;
+                    color: #333;
+                    margin: 0;
+                    padding: 0;
+                    transition: all 0.3s ease;
+                }
+                h1, h2, h3 {
+                    color: #333;
+                    font-weight: bold;
+                }
+                .btn:hover {
+                    background-color: #007bff;
+                    color: white;
+                    transition: all 0.3s ease;
+                }
+                .navbar {
+                    background-color: #003366;
+                }
+                .navbar a {
+                    color: #ffffff;
+                }
+                .navbar a:hover {
+                    color: #f4f4f4;
+                    text-decoration: underline;
+                }
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }
+                .card {
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    border-radius: 10px;
+                    overflow: hidden;
+                }
+                .card-body {
+                    padding: 20px;
+                    background-color: #ffffff;
+                }
+                .fade-in {
+                    animation: fadeIn 1.5s ease-in;
+                }
+                @keyframes fadeIn {
+                    0% {
+                        opacity: 0;
+                    }
+                    100% {
+                        opacity: 1;
+                    }
+                }
+                /* Responsive Design */
+                @media (max-width: 768px) {
+                    .container {
+                        padding: 10px;
+                    }
+                }
+            </style>
+</head>
+<body>
+<header class="header">
+<div class="logo">L'Oreal Paris</div>
+<nav class="nav">
+<a href="/">Trang chủ</a>
+<a href="/introduce">Giới thiệu</a>
+<a href="/products">Sản phẩm</a>
+<a href="/cart">Giỏ hàng</a>
+<a href="/contact">Liên hệ</a>
+<a href="/login">Đăng nhập/Đăng ký</a>
+</nav>
+</header>
+<section class="banner">
+<img alt="Banner mỹ phẩm" src="https://shop.aldocoppola.com/wp-content/uploads/2023/02/banner-oreal.jpg"/>
+</section>
+<div class="auth-container">
+<div class="auth-tabs">
+<button class="tab-button active" onclick="switchForm('login', event)">Đăng nhập</button>
+<button class="tab-button" onclick="switchForm('register', event)">Đăng ký</button>
+</div>
+<form class="auth-form active" id="login" onsubmit="return handleLogin(event)">
+<label>Email hoặc SĐT</label>
+<input id="login-contact" required="" type="text"/>
+<label>Mật khẩu</label>
+<input id="login-password" required="" type="password"/>
+<div class="error" id="login-error"></div>
+<button type="submit">Đăng nhập</button>
+<span class="link" onclick="switchForm('forgot')">Quên mật khẩu?</span>
+</form>
+<form class="auth-form" id="register" onsubmit="return handleRegister(event)">
+<label>Họ tên</label>
+<input id="reg-name" pattern="^[^\d]+$" required="" type="text"/>
+<label>Email hoặc SĐT</label>
+<input id="reg-contact" pattern="(^\\d{9,11}$)|(^[\\w-.]+@[\\w-]+\\.[a-z]{2,}$)" required="" type="text"/>
+<label>Mật khẩu</label>
+<input id="reg-password" required="" type="password"/>
+<div class="error" id="reg-error"></div>
+<button type="submit">Đăng ký</button>
+</form>
+<form class="auth-form" id="forgot" onsubmit="return handleForgot(event)">
+<label>Nhập email hoặc số điện thoại</label>
+<input id="forgot-contact" required="" type="text"/>
+<label>Mật khẩu mới</label>
+<input id="forgot-password" required="" type="password"/>
+<div class="error" id="forgot-error"></div>
+<button type="submit">Cập nhật mật khẩu</button>
+<span class="link" onclick="switchForm('login')">Quay lại đăng nhập</span>
+</form>
+</div>
+<div id="toast-container"></div>
+<script>
+    function switchForm(formId, evt = null) {
+      document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+      document.getElementById(formId).classList.add('active');
+
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      if (evt) evt.target.classList.add('active');
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById("reg-name").value.trim();
+      const contact = document.getElementById("reg-contact").value.trim();
+      const password = document.getElementById("reg-password").value;
+
+      try {
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, contact, password })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          showAlert("Đăng ký thành công!", "success");
+          setTimeout(() => switchForm("login"), 1500);
+        } else {
+          document.getElementById("reg-error").textContent = result.error;
+        }
+      } catch (error) {
+        document.getElementById("reg-error").textContent = "Có lỗi xảy ra. Vui lòng thử lại.";
+      }
+
+      return false;
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const contact = document.getElementById("login-contact").value.trim();
+      const password = document.getElementById("login-password").value;
+
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ contact, password })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          showAlert(`Xin chào, ${result.user.name}`, "success");
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 1500);
+        } else {
+          document.getElementById("login-error").textContent = result.error;
+        }
+      } catch (error) {
+        document.getElementById("login-error").textContent = "Có lỗi xảy ra. Vui lòng thử lại.";
+      }
+
+      return false;
+    }
+
+    async function handleForgot(e) {
+      e.preventDefault();
+      const contact = document.getElementById("forgot-contact").value.trim();
+      const new_password = document.getElementById("forgot-password").value;
+
+      try {
+        const response = await fetch('/api/forgot-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ contact, new_password })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          showAlert("Cập nhật mật khẩu thành công!", "success");
+          setTimeout(() => switchForm("login"), 1500);
+        } else {
+          document.getElementById("forgot-error").textContent = result.error;
+        }
+      } catch (error) {
+        document.getElementById("forgot-error").textContent = "Có lỗi xảy ra. Vui lòng thử lại.";
+      }
+
+      return false;
+    }
+
+    function showAlert(message, type = "success") {
+      const toastContainer = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      toast.classList.add("toast", type);
+      toast.textContent = message;
+      toastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+  </script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

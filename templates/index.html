@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>L'Oreal Paris - Mỹ phẩm chính hãng</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet"/>
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      color: #333;
+      background: #f3f7f9;
+    }
+    .header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      background: transparent;
+      padding: 20px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+    }
+    .logo {
+      font-size: 28px;
+      font-family: 'Playfair Display', serif;
+      color: #000;
+      white-space: nowrap;
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s ease;
+      white-space: nowrap;
+    }
+    .nav a:hover {
+      color: #1976d2;
+    }
+    .nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #1976d2;
+      transition: width 0.3s ease;
+    }
+    .nav a:hover::after {
+      width: 100%;
+    }
+    .banner {
+      position: relative;
+      overflow: hidden;
+    }
+    .banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease, filter 0.6s ease;
+    }
+    .banner:hover img {
+      transform: scale(1.03);
+      filter: contrast(1.05) saturate(1.05);
+    }
+    .promo-banner-wrapper {
+      display: flex;
+      gap: 20px;
+      padding: 40px 5%;
+      box-sizing: border-box;
+    }
+    .promo-left {
+      position: relative;
+      width: 70%;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+    .promo-slide {
+      display: none;
+    }
+    .promo-slide.active {
+      display: block;
+    }
+    .promo-slide img {
+      width: 100%;
+      height: 280px;
+      border-radius: 10px;
+    }
+    .promo-right {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .promo-right img {
+      width: 100%;
+      height: 280px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+    img {
+      transition: transform 0.4s ease, filter 0.4s ease, box-shadow 0.4s ease;
+      will-change: transform;
+    }
+    img:hover {
+      transform: scale(1.03);
+      filter: brightness(1.05) saturate(1.1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+    .promo-prev,
+    .promo-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.3);
+      border: none;
+      color: white;
+      font-size: 24px;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 10;
+      border-radius: 50%;
+    }
+    .promo-prev {
+      left: 10px;
+    }
+    .promo-next {
+      right: 10px;
+    }
+    .categories {
+      background: #fff;
+      padding: 40px 10%;
+      text-align: left;
+    }
+    .categories h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #222;
+    }
+    .category-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+    }
+    .featured-list {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 50px 20px 
+    }
+    .category {
+      background: #e3eef4;
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+    .category img {
+      width: 100%;
+      height: 180px;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+      transition: transform 0.3s ease;
+      object-fit: center;
+      border-radius: 20px;
+    }
+    .category p {
+      margin: 0 0 8px;
+      font-weight: 500;
+      color: #555;
+      text-align: center;
+      flex-grow: 0;
+    }
+    .category a {
+      flex-grow: 0;
+    }
+    .category:hover {
+      background: #bcdff1;
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+    .product-button {
+      margin-top: auto;
+      background: linear-gradient(to right, #e91e63, #f06292);
+      color: white;
+      border: none;
+      padding: 10px 0;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      width: 100%;
+      display: block;
+      text-align: center;
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .product-button:hover {
+      background: linear-gradient(to right, #d81b60, #ec407a);
+      transform: translateY(-2px);
+    }
+    .bottom-banner {
+      position: relative;
+      overflow: hidden;
+      height: 350px;
+    }
+    .bottom-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.6);
+      transition: transform 0.6s ease, filter 0.6s ease;
+    }
+    .bottom-banner:hover img {
+      transform: scale(1.03);
+      filter: contrast(1.05) saturate(1.05);
+    }
+    .contact-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      text-align: center;
+      padding: 20px 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      box-sizing: border-box;
+      z-index: 5;
+    }
+    .contact-overlay h2 {
+      font-size: 20px;
+    }
+    .contact-overlay p {
+      font-size: 14px;
+    }
+    .contact-overlay:hover img {
+      transform: scale(1.03);
+      filter: contrast(1.05) saturate(1.05);
+    }
+  
+                /* Custom CSS Improvements */
+                body {
+                    font-family: 'Segoe UI', sans-serif;
+                    background-color: #f4f7f6;
+                    color: #333;
+                    margin: 0;
+                    padding: 0;
+                    transition: all 0.3s ease;
+                }
+                h1, h2, h3 {
+                    color: #333;
+                    font-weight: bold;
+                }
+                .btn:hover {
+                    background-color: #007bff;
+                    color: white;
+                    transition: all 0.3s ease;
+                }
+                .navbar {
+                    background-color: #003366;
+                }
+                .navbar a {
+                    color: #ffffff;
+                }
+                .navbar a:hover {
+                    color: #f4f4f4;
+                    text-decoration: underline;
+                }
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }
+                .card {
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    border-radius: 10px;
+                    overflow: hidden;
+                }
+                .card-body {
+                    padding: 20px;
+                    background-color: #ffffff;
+                }
+                .fade-in {
+                    animation: fadeIn 1.5s ease-in;
+                }
+                @keyframes fadeIn {
+                    0% {
+                        opacity: 0;
+                    }
+                    100% {
+                        opacity: 1;
+                    }
+                }
+                /* Responsive Design */
+                @media (max-width: 768px) {
+                    .container {
+                        padding: 10px;
+                    }
+                }
+            </style>
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+<div class="logo">L'Oreal Paris</div>
+<nav class="nav">
+<a href="/">Trang chủ</a>
+<a href="/introduce">Giới thiệu</a>
+<a href="/products">Sản phẩm</a>
+<a href="/cart">Giỏ hàng</a>
+<a href="/contact">Liên hệ</a>
+<a href="/login">Đăng nhập/Đăng ký</a>
+</nav>
+</header>
+<!-- Banner -->
+<section class="banner">
+<img alt="Banner mỹ phẩm" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/banner.jpg-AarYl2tpFCSgXY1SxZov8qVPf2SGP1.jpeg"/>
+</section>
+<section class="promo-banner-wrapper">
+<div class="promo-left">
+<div class="promo-slide active">
+<img alt="Banner chính 1" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/qc1-oc7KBs3140Tq5UPOusVrYXw1S4PcDW.webp"/>
+</div>
+<div class="promo-slide">
+<img alt="Banner chính 2" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/qc2-6mgWEJbvndjeBBWVk2SDfZQ1o8Iz5N.webp"/>
+</div>
+<button class="promo-prev">❮</button>
+<button class="promo-next">❯</button>
+</div>
+<div class="promo-right">
+<img alt="Phụ 1" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/qc3.jpg-8m4CaNMb1AG6VKOPIsPXz4VKzCCBA0.jpeg"/>
+</div>
+</section>
+<!-- Danh mục -->
+<section class="categories">
+<h2>Danh mục sản phẩm</h2>
+<div class="category-list">
+<div class="category" data-category="toc">
+<img alt="Chăm sóc tóc" src="https://myphamcacdai.vn/upload/products/large/myphamcacdai-dau-goi-phuc-hoi-toc-hu-ton-loreal-serie-expert-gold-quinoa-protein-absolut-repair-instant-resurfacing-shampoo-chinh-hang.png"/>
+<p>Chăm sóc tóc</p>
+</div>
+<div class="category" data-category="lam-sach">
+<img alt="Làm sạch" src="https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lfrdpg7idzhzb6"/>
+<p>Làm sạch</p>
+</div>
+<div class="category" data-category="duong-da">
+<img alt="Dưỡng da" src="https://cf.shopee.vn/file/a2dd412e5c28b0387c46d2417c968f30"/>
+<p>Dưỡng da</p>
+</div>
+<div class="category" data-category="son-moi">
+<img alt="Son môi" src="https://bomcosmetic.vn/wp-content/uploads/2021/12/son-li-muot-moi-l_oreal-paris-color-riche-moist-matte-mau-233.u2409.d20171022.t155354.412451.jpg"/>
+<p>Son môi</p>
+</div>
+</div>
+</section>
+<!-- Sản phẩm nổi bật -->
+<section class="categories">
+<h2>Top 10 sản phẩm bán chạy</h2>
+<div class="category-list featured-list" id="featured-products">
+<!-- Products will be loaded here -->
+</div>
+</section>
+<section class="bottom-banner">
+<img alt="Thông tin liên hệ" src="https://i.pinimg.com/736x/6a/39/44/6a3944654628c5af5eb7eee94ee786bb.jpg"/>
+<div class="contact-overlay">
+<footer class="footer">
+<strong>CÔNG TY TNHH L'OREAL VIỆT NAM</strong><br/>
+        Địa chỉ: Tầng 10, Tòa nhà A&amp;B, 76 Lê Lai, P. Bến Thành, Q.1, TP.HCM<br/>
+        Hotline: 1800 123 456<br/>
+        Email: hello@lorealparis.vn<br/>
+        Website: www.lorealparis.vn<br/>
+        Mã số thuế: 0301234567<br/>
+        Giờ làm việc: Thứ 2 - Thứ 6, 08:00 - 17:00<br/>
+        Fanpage: facebook.com/lorealparisvn<br/>
+        Instagram: @lorealparis_vn<br/><br/>
+        © 2025 L'Oreal Paris Việt Nam. Bản quyền đã được bảo hộ.
+      </footer>
+</div>
+</section>
+<script>
+    // Check login status
+    async function checkLoginStatus() {
+      try {
+        const response = await fetch('/api/user');
+        if (response.ok) {
+          const user = await response.json();
+          updateNavForLoggedInUser(user);
+        }
+      } catch (error) {
+        console.log('User not logged in');
+      }
+    }
+
+    function updateNavForLoggedInUser(user) {
+      const nav = document.querySelector("nav.nav");
+      const loginLink = [...nav.children].find(a => a.textContent.includes("Đăng nhập"));
+      if (loginLink) loginLink.remove();
+
+      // Add cart badge to cart link
+      const cartLink = [...nav.children].find((a) => a.textContent.includes("Giỏ hàng"))
+      if (cartLink && !cartLink.querySelector('.cart-badge')) {
+        cartLink.classList.add('cart-link');
+        const badge = document.createElement('span');
+        badge.className = 'cart-badge hidden';
+        badge.textContent = '(0)';
+        cartLink.appendChild(badge);
+      }
+
+      const greeting = document.createElement("span");
+      greeting.textContent = `Xin chào, ${user.name}`;
+      greeting.style.marginLeft = "20px";
+      greeting.style.fontWeight = "bold";
+      nav.appendChild(greeting);
+
+      const logout = document.createElement("a");
+      logout.textContent = "Đăng xuất";
+      logout.href = "#";
+      logout.style.marginLeft = "20px";
+      logout.onclick = async function () {
+        await fetch('/api/logout', { method: 'POST' });
+        location.reload();
+      };
+      nav.appendChild(logout);
+
+      // Update cart badge after login
+      updateCartBadge();
+    }
+
+    // Load featured products
+    async function loadFeaturedProducts() {
+      try {
+        const response = await fetch('/api/products/featured');
+        const products = await response.json();
+        
+        const container = document.getElementById('featured-products');
+        container.innerHTML = '';
+        
+        products.forEach(product => {
+          const productDiv = document.createElement('div');
+          productDiv.className = 'category';
+          productDiv.innerHTML = `
+            <a href="/product-detail?id=${product.id}">
+              <img src="${product.image_url}" alt="${product.name}">
+            </a>
+            <p>${product.name}</p>
+            <p style="color:#e91e63; font-weight:bold;">${product.price.toLocaleString()}₫</p>
+            <button class="product-button" onclick="addToCart(${product.id})">Thêm vào giỏ</button>
+          `;
+          container.appendChild(productDiv);
+        });
+      } catch (error) {
+        console.error('Error loading featured products:', error);
+      }
+    }
+
+    // Add to cart function
+    async function addToCart(productId) {
+      try {
+        const response = await fetch('/api/cart/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            product_id: productId,
+            quantity: 1
+          })
+        });
+
+        const result = await response.json();
+        
+        if (response.ok) {
+          alert('Sản phẩm đã được thêm vào giỏ hàng!');
+        } else {
+          if (result.error === 'Vui lòng đăng nhập') {
+            alert('Bạn cần đăng nhập để thêm sản phẩm.');
+            window.location.href = '/login';
+          } else {
+            alert(result.error);
+          }
+        }
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('Có lỗi xảy ra. Vui lòng thử lại.');
+      }
+    }
+
+    // Category navigation
+    document.querySelectorAll('.category[data-category]').forEach(item => {
+      item.addEventListener('click', function () {
+        const category = item.getAttribute('data-category');
+        window.location.href = `/products?category=${category}`;
+      });
+    });
+
+    // Promo slider functionality
+    const promoSlides = document.querySelectorAll(".promo-slide");
+    let currentPromoIndex = 0;
+
+    function showPromoSlide(index) {
+      promoSlides.forEach(slide => slide.classList.remove("active"));
+      promoSlides[index].classList.add("active");
+    }
+
+    document.querySelector(".promo-prev").addEventListener("click", () => {
+      currentPromoIndex = (currentPromoIndex - 1 + promoSlides.length) % promoSlides.length;
+      showPromoSlide(currentPromoIndex);
+    });
+
+    document.querySelector(".promo-next").addEventListener("click", () => {
+      currentPromoIndex = (currentPromoIndex + 1) % promoSlides.length;
+      showPromoSlide(currentPromoIndex);
+    });
+
+    // Auto slide
+    setInterval(() => {
+      currentPromoIndex = (currentPromoIndex + 1) % promoSlides.length;
+      showPromoSlide(currentPromoIndex);
+    }, 5000);
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      checkLoginStatus();
+      loadFeaturedProducts();
+    });
+  </script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

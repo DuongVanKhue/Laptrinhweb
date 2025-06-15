@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Chi tiết sản phẩm - L'Oreal Paris</title>
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      color: #333;
+      background: #f3f7f9;
+    }
+    .header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      background: transparent;
+      padding: 20px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+    }
+    .logo {
+      font-size: 28px;
+      font-family: 'Playfair Display', serif;
+      color: #000;
+      white-space: nowrap;
+      font-weight: bold;
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s ease;
+      white-space: nowrap;
+    }
+    .nav a:hover {
+      color: #1976d2;
+    }
+    .nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #1976d2;
+      transition: width 0.3s ease;
+    }
+    .nav a:hover::after {
+      width: 100%;
+    }
+    .banner {
+      position: relative;
+      overflow: hidden;
+    }
+    .banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease, filter 0.6s ease;
+    }
+    .banner:hover img {
+      transform: scale(1.03);
+      filter: contrast(1.05) saturate(1.05);
+    }
+    main {
+      margin-top: 90px;
+      margin-bottom: 40px;
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .product-image {
+      flex: 1 1 300px;
+      max-width: 300px;
+      height: 100%;
+      display:flex;
+      align-items:center;
+    }
+    .product-image img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    .product-info {
+      flex: 1 1 400px;
+      max-width: 400px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .product-info h1 {
+      text-decoration: none;
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: #2b6777;
+      margin-bottom: 15px;
+    }
+    .product-info p.price {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e91e63;
+      margin: 10px 0 25px;
+    }
+    .product-info p.description {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+    .product-info button {
+      background: linear-gradient(to right, #e91e63, #f06292);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      width: 100%;
+    }
+    .product-info button:hover {
+      background: linear-gradient(to right, #d81b60, #ec407a);
+    }
+    .not-found {
+      font-size: 20px;
+      color: #999;
+      text-align: center;
+      width: 100%;
+      margin-top: 50px;
+    }
+    .bottom-banner {
+      position: relative;
+      height: 350px;
+    }
+    .bottom-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.6);
+      transition: transform 0.6s ease, filter 0.6s ease;
+    }
+    .bottom-banner:hover img {
+      transform: scale(1.03);
+      filter: contrast(1.05) saturate(1.05);
+    }
+    .contact-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      text-align: center;
+      padding: 20px 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      box-sizing: border-box;
+      z-index: 5;
+    }
+    .contact-overlay h2 {
+      font-size: 20px;
+    }
+    .contact-overlay p {
+      font-size: 14px;
+    }
+    .contact-overlay:hover img {
+      transform: scale(1.03);
+      filter: contrast(1.05) saturate(1.05);
+    }
+    /* Toast styles */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .toast {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      margin-bottom: 10px;
+      overflow: hidden;
+      position: relative;
+      width: 300px;
+    }
+
+    .toast.success {
+      border-left: 5px solid #5cb85c;
+    }
+
+    .toast.error {
+      border-left: 5px solid #d9534f;
+    }
+
+    .toast.warning {
+      border-left: 5px solid #f0ad4e;
+    }
+
+    .toast-content {
+      padding: 15px;
+    }
+
+    .toast-message {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .cart-link {
+      position: relative;
+      display: inline-block;
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #f44336;
+      color: white;
+      border-radius: 50%;
+      padding: 4px 6px;
+      font-size: 12px;
+    }
+
+    .cart-badge.hidden {
+      display: none;
+    }
+  
+                /* Custom CSS Improvements */
+                body {
+                    font-family: 'Segoe UI', sans-serif;
+                    background-color: #f4f7f6;
+                    color: #333;
+                    margin: 0;
+                    padding: 0;
+                    transition: all 0.3s ease;
+                }
+                h1, h2, h3 {
+                    color: #333;
+                    font-weight: bold;
+                }
+                .btn:hover {
+                    background-color: #007bff;
+                    color: white;
+                    transition: all 0.3s ease;
+                }
+                .navbar {
+                    background-color: #003366;
+                }
+                .navbar a {
+                    color: #ffffff;
+                }
+                .navbar a:hover {
+                    color: #f4f4f4;
+                    text-decoration: underline;
+                }
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }
+                .card {
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    border-radius: 10px;
+                    overflow: hidden;
+                }
+                .card-body {
+                    padding: 20px;
+                    background-color: #ffffff;
+                }
+                .fade-in {
+                    animation: fadeIn 1.5s ease-in;
+                }
+                @keyframes fadeIn {
+                    0% {
+                        opacity: 0;
+                    }
+                    100% {
+                        opacity: 1;
+                    }
+                }
+                /* Responsive Design */
+                @media (max-width: 768px) {
+                    .container {
+                        padding: 10px;
+                    }
+                }
+            </style>
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+<div class="logo">L'Oreal Paris</div>
+<nav class="nav">
+<a href="/">Trang chủ</a>
+<a href="/introduce">Giới thiệu</a>
+<a href="/products">Sản phẩm</a>
+<a href="/cart">Giỏ hàng</a>
+<a href="/contact">Liên hệ</a>
+<a href="/login">Đăng nhập/Đăng ký</a>
+</nav>
+</header>
+<!-- Banner -->
+<section class="banner">
+<img alt="Banner mỹ phẩm" src="https://shop.aldocoppola.com/wp-content/uploads/2023/02/banner-oreal.jpg"/>
+</section>
+<main id="product-detail-container">
+<!-- Nội dung sẽ được JS chèn vào đây -->
+</main>
+<section class="bottom-banner">
+<img alt="Thông tin liên hệ" src="https://i.pinimg.com/736x/6a/39/44/6a3944654628c5af5eb7eee94ee786bb.jpg"/>
+<div class="contact-overlay">
+<footer class="footer">
+<strong>CÔNG TY TNHH L'OREAL VIỆT NAM</strong><br/>
+        Địa chỉ: Tầng 10, Tòa nhà A&amp;B, 76 Lê Lai, P. Bến Thành, Q.1, TP.HCM<br/>
+        Hotline: 1800 123 456<br/>
+        Email: hello@lorealparis.vn<br/>
+        Website: www.lorealparis.vn<br/>
+        Mã số thuế: 0301234567<br/>
+        Giờ làm việc: Thứ 2 - Thứ 6, 08:00 - 17:00<br/>
+        Fanpage: facebook.com/lorealparisvn<br/>
+        Instagram: @lorealparis_vn<br/><br/>
+        © 2025 L'Oreal Paris Việt Nam. Bản quyền đã được bảo hộ.
+      </footer>
+</div>
+</section>
+<div class="toast-container" id="toast-container"></div>
+<script>
+    // Kiểm tra trạng thái đăng nhập
+    async function checkLoginStatus() {
+      try {
+        const response = await fetch('/api/user');
+        if (response.ok) {
+          const user = await response.json();
+          updateNavForLoggedInUser(user);
+        }
+      } catch (error) {
+        console.log('User not logged in');
+      }
+    }
+
+    function updateNavForLoggedInUser(user) {
+      const nav = document.querySelector("nav.nav");
+      const loginLink = [...nav.children].find(a => a.textContent.includes("Đăng nhập"));
+      if (loginLink) loginLink.remove();
+
+      // Add cart badge to cart link
+      const cartLink = [...nav.children].find((a) => a.textContent.includes("Giỏ hàng"))
+      if (cartLink && !cartLink.querySelector('.cart-badge')) {
+        cartLink.classList.add('cart-link');
+        const badge = document.createElement('span');
+        badge.className = 'cart-badge hidden';
+        badge.textContent = '(0)';
+        cartLink.appendChild(badge);
+      }
+
+      const greeting = document.createElement("span");
+      greeting.textContent = `Xin chào, ${user.name}`;
+      greeting.style.marginLeft = "20px";
+      greeting.style.fontWeight = "bold";
+      nav.appendChild(greeting);
+
+      const logout = document.createElement("a");
+      logout.textContent = "Đăng xuất";
+      logout.href = "#";
+      logout.style.marginLeft = "20px";
+      logout.onclick = async function () {
+        await fetch('/api/logout', { method: 'POST' });
+        location.reload();
+      };
+      nav.appendChild(logout);
+
+      // Update cart badge after login
+      updateCartBadge();
+    }
+
+    // Lấy thông tin sản phẩm từ API
+    async function loadProductDetail() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        
+        if (!productId) {
+          document.getElementById('product-detail-container').innerHTML = 
+            '<div class="not-found">Không tìm thấy sản phẩm.</div>';
+          return;
+        }
+        
+        const response = await fetch(`/api/products/${productId}`);
+        
+        if (!response.ok) {
+          throw new Error('Không thể tải thông tin sản phẩm');
+        }
+        
+        const product = await response.json();
+        
+        document.getElementById('product-detail-container').innerHTML = `
+          <div class="product-image">
+            <img src="${product.image_url}" alt="${product.name}">
+          </div>
+          <div class="product-info">
+            <h1>${product.name}</h1>
+            <p class="price">${product.price.toLocaleString()}₫</p>
+            <p class="description">${product.description}</p>
+            <button id="addToCartBtn">Thêm vào giỏ</button>
+          </div>
+        `;
+        
+        // Thêm sự kiện cho nút thêm vào giỏ
+        document.getElementById('addToCartBtn').addEventListener('click', () => {
+          addToCart(product.id);
+        });
+        
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('product-detail-container').innerHTML = 
+          '<div class="not-found">Không thể tải thông tin sản phẩm.</div>';
+      }
+    }
+
+    function showAlert(message, type = 'success') {
+      const toastContainer = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.classList.add('toast', type);
+
+      toast.innerHTML = `
+    <div style="font-size: 13px; color: #333;">${message}</div>
+  `;
+
+      toastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+    // Thêm sản phẩm vào giỏ hàng
+    async function addToCart(productId) {
+      try {
+        const response = await fetch('/api/cart/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            product_id: productId,
+            quantity: 1
+          })
+        });
+
+        const result = await response.json();
+        
+        if (response.ok) {
+          showAlert('Sản phẩm đã được thêm vào giỏ hàng!', 'success');
+          updateCartBadge();
+        } else {
+          if (result.error === 'Vui lòng đăng nhập') {
+            showAlert('Bạn cần đăng nhập để thêm sản phẩm.', 'warning');
+            setTimeout(() => {
+              window.location.href = '/login';
+            }, 1500);
+          } else {
+            showAlert(result.error, 'error');
+          }
+        }
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        showAlert('Có lỗi xảy ra. Vui lòng thử lại.', 'error');
+      }
+    }
+
+    async function updateCartBadge() {
+      try {
+        const response = await fetch('/api/cart');
+        if (response.ok) {
+          const cartItems = await response.json();
+          const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+          const cartLink = document.querySelector('.cart-link');
+          if (cartLink) {
+            const badge = cartLink.querySelector('.cart-badge');
+            if (badge) {
+              badge.textContent = totalCount > 0 ? `(${totalCount})` : '(0)';
+              badge.classList.toggle('hidden', totalCount === 0);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error updating cart badge:', error);
+      }
+    }
+
+    // Khởi tạo trang
+    document.addEventListener('DOMContentLoaded', function() {
+      checkLoginStatus();
+      loadProductDetail();
+      updateCartBadge();
+    });
+  </script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

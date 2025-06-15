@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Liên hệ - L'Oreal Paris</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet"/>
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f3f7f9;
+      color: #333;
+    }
+    .header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      background: transparent;
+      padding: 20px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+    }
+    .logo {
+      font-size: 28px;
+      font-family: 'Playfair Display', serif;
+      color: #000;
+      white-space: nowrap;
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s ease;
+      white-space: nowrap;
+    }
+    .nav a:hover {
+      color: #1976d2;
+    }
+    .nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #1976d2;
+      transition: width 0.3s ease;
+    }
+    .nav a:hover::after {
+      width: 100%;
+    }
+    .banner {
+      position: relative;
+      overflow: hidden;
+    }
+    .banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease, filter 0.6s ease;
+    }
+    .banner:hover img {
+      transform: scale(1.03);
+      filter: contrast(1.05) saturate(1.05);
+    }
+    .contact-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      display: flex;
+      gap: 40px;
+      padding: 0 40px;
+    }
+    .contact-form, .contact-info {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      flex: 1;
+    }
+    .contact-form h2, .contact-info h2 {
+      margin-top: 0;
+      font-family: 'Playfair Display', serif;
+      color: #2b6777;
+    }
+    .contact-form label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 500;
+    }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .contact-form textarea {
+      resize: vertical;
+      height: 120px;
+    }
+    .contact-form button {
+      margin-top: 20px;
+      background: linear-gradient(to right, #e91e63, #f06292);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .contact-form button:hover {
+      background: linear-gradient(to right, #d81b60, #ec407a);
+    }
+    .contact-info p {
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+    .map {
+      margin-top: 30px;
+    }
+    iframe {
+      width: 100%;
+      height: 250px;
+      border: 0;
+      border-radius: 8px;
+    }
+    .bottom-banner {
+      position: relative;
+      overflow: hidden;
+      height: 350px;
+    }
+    .bottom-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.6);
+      transition: transform 0.6s ease, filter 0.6s ease;
+    }
+    .bottom-banner:hover img {
+      transform: scale(1.03);
+      filter: contrast(1.05) saturate(1.05);
+    }
+    .contact-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      text-align: center;
+      padding: 20px 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      box-sizing: border-box;
+      z-index: 5;
+    }
+    .contact-overlay h2 {
+      font-size: 20px;
+    }
+    .contact-overlay p {
+      font-size: 14px;
+    }
+    .contact-overlay:hover img {
+      transform: scale(1.03);
+      filter: contrast(1.05) saturate(1.05);
+    }
+  
+                /* Custom CSS Improvements */
+                body {
+                    font-family: 'Segoe UI', sans-serif;
+                    background-color: #f4f7f6;
+                    color: #333;
+                    margin: 0;
+                    padding: 0;
+                    transition: all 0.3s ease;
+                }
+                h1, h2, h3 {
+                    color: #333;
+                    font-weight: bold;
+                }
+                .btn:hover {
+                    background-color: #007bff;
+                    color: white;
+                    transition: all 0.3s ease;
+                }
+                .navbar {
+                    background-color: #003366;
+                }
+                .navbar a {
+                    color: #ffffff;
+                }
+                .navbar a:hover {
+                    color: #f4f4f4;
+                    text-decoration: underline;
+                }
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }
+                .card {
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    border-radius: 10px;
+                    overflow: hidden;
+                }
+                .card-body {
+                    padding: 20px;
+                    background-color: #ffffff;
+                }
+                .fade-in {
+                    animation: fadeIn 1.5s ease-in;
+                }
+                @keyframes fadeIn {
+                    0% {
+                        opacity: 0;
+                    }
+                    100% {
+                        opacity: 1;
+                    }
+                }
+                /* Responsive Design */
+                @media (max-width: 768px) {
+                    .container {
+                        padding: 10px;
+                    }
+                }
+            </style>
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+<div class="logo">L'Oreal Paris</div>
+<nav class="nav">
+<a href="/">Trang chủ</a>
+<a href="/introduce">Giới thiệu</a>
+<a href="/products">Sản phẩm</a>
+<a href="/cart">Giỏ hàng</a>
+<a href="/contact">Liên hệ</a>
+<a href="/login">Đăng nhập/Đăng ký</a>
+</nav>
+</header>
+<!-- Banner -->
+<section class="banner">
+<img alt="Banner mỹ phẩm" src="https://shop.aldocoppola.com/wp-content/uploads/2023/02/banner-oreal.jpg"/>
+</section>
+<div class="contact-container">
+<div class="contact-form">
+<h2>Gửi tin nhắn cho chúng tôi</h2>
+<form id="contact-form" onsubmit="return submitContactForm(event)">
+<label for="name">Họ và tên</label>
+<input id="name" name="name" pattern="^[^\d]+$" required="" title="Tên không được chứa số" type="text"/>
+<label for="contact">Email/Số điện thoại</label>
+<input id="contact" name="contact" pattern="(^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$)|(^\d{9,11}$)" required="" title="Nhập email hợp lệ hoặc số điện thoại từ 9 đến 11 chữ số" type="text"/>
+<label for="message">Nội dung</label>
+<textarea id="message" name="message" required=""></textarea>
+<button type="submit">Gửi nội dung</button>
+</form>
+</div>
+<div class="contact-info">
+<h2>Thông tin liên hệ</h2>
+<p><strong>Hotline:</strong> 1900 123 456</p>
+<p><strong>Email:</strong> support@loreal.vn</p>
+<p><strong>Địa chỉ:</strong> 123 Nguyễn Trãi, Quận 1, TP.HCM</p>
+<p><strong>Thời gian làm việc:</strong> 08:00 - 17:00 (Thứ 2 - Thứ 7)</p>
+<div class="map">
+<iframe allowfullscreen="" loading="lazy" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.331492004317!2d106.67998277480404!3d10.785255859018908!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1c2fca81ef%3A0xe34d23726e42c0d3!2zMTIzIMSQLiBOZ3V54buFbiBUcuG6pWksIFF14bqtbiAxLCBUaOG7pyBDaMOtbmgsIEjDoCBO4buZaSwgVFAuIEjDoCBDaMOtbmggVmnDqm4!5e0!3m2!1svi!2s!4v1717300000000"></iframe>
+</div>
+</div>
+</div>
+<section class="bottom-banner">
+<img alt="Thông tin liên hệ" src="https://i.pinimg.com/736x/6a/39/44/6a3944654628c5af5eb7eee94ee786bb.jpg"/>
+<div class="contact-overlay">
+<footer class="footer">
+<strong>CÔNG TY TNHH L'OREAL VIỆT NAM</strong><br/>
+        Địa chỉ: Tầng 10, Tòa nhà A&amp;B, 76 Lê Lai, P. Bến Thành, Q.1, TP.HCM<br/>
+        Hotline: 1800 123 456<br/>
+        Email: hello@lorealparis.vn<br/>
+        Website: www.lorealparis.vn<br/>
+        Mã số thuế: 0301234567<br/>
+        Giờ làm việc: Thứ 2 - Thứ 6, 08:00 - 17:00<br/>
+        Fanpage: facebook.com/lorealparisvn<br/>
+        Instagram: @lorealparis_vn<br/><br/>
+        © 2025 L'Oreal Paris Việt Nam. Bản quyền đã được bảo hộ.
+      </footer>
+</div>
+</section>
+<script>
+    // Kiểm tra trạng thái đăng nhập
+    async function checkLoginStatus() {
+      try {
+        const response = await fetch('/api/user');
+        if (response.ok) {
+          const user = await response.json();
+          updateNavForLoggedInUser(user);
+          
+          // Tự động điền thông tin người dùng vào form
+          document.getElementById("name").value = user.name;
+          document.getElementById("contact").value = user.contact;
+          
+          // Ẩn các trường đã điền
+          document.querySelector("label[for='name']").innerHTML = `Họ và tên: <strong>${user.name}</strong>`;
+          document.querySelector("label[for='contact']").innerHTML = `Email/SĐT: <strong>${user.contact}</strong>`;
+        }
+      } catch (error) {
+        console.log('User not logged in');
+      }
+    }
+
+    function updateNavForLoggedInUser(user) {
+      const nav = document.querySelector("nav.nav");
+      const loginLink = [...nav.children].find(a => a.textContent.includes("Đăng nhập"));
+      if (loginLink) loginLink.remove();
+
+      const greeting = document.createElement("span");
+      greeting.textContent = `Xin chào, ${user.name}`;
+      greeting.style.marginLeft = "20px";
+      greeting.style.fontWeight = "bold";
+      nav.appendChild(greeting);
+
+      const logout = document.createElement("a");
+      logout.textContent = "Đăng xuất";
+      logout.href = "#";
+      logout.style.marginLeft = "20px";
+      logout.onclick = async function () {
+        await fetch('/api/logout', { method: 'POST' });
+        location.reload();
+      };
+      nav.appendChild(logout);
+    }
+
+    // Xử lý gửi form liên hệ
+    async function submitContactForm(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById("name").value;
+      const contact = document.getElementById("contact").value;
+      const message = document.getElementById("message").value;
+      
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, contact, message })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          showAlert("Gửi tin nhắn thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất có thể.", "success");
+          document.getElementById("message").value = "";
+        } else {
+          showAlert(result.error || "Có lỗi xảy ra. Vui lòng thử lại sau.", "error");
+        }
+      } catch (error) {
+        showAlert("Có lỗi xảy ra. Vui lòng thử lại sau.", "error");
+      }
+      
+      return false;
+    }
+
+    // Khởi tạo trang
+    document.addEventListener('DOMContentLoaded', function() {
+      checkLoginStatus();
+    });
+  </script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

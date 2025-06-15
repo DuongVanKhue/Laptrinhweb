@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quản trị - L'Oreal Paris</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="/static/css/style.css" rel="stylesheet"/>
+<style>
+    body {
+      background: #f8fafc;
+    }
+  
+                /* Custom CSS Improvements */
+                body {
+                    font-family: 'Segoe UI', sans-serif;
+                    background-color: #f4f7f6;
+                    color: #333;
+                    margin: 0;
+                    padding: 0;
+                    transition: all 0.3s ease;
+                }
+                h1, h2, h3 {
+                    color: #333;
+                    font-weight: bold;
+                }
+                .btn:hover {
+                    background-color: #007bff;
+                    color: white;
+                    transition: all 0.3s ease;
+                }
+                .navbar {
+                    background-color: #003366;
+                }
+                .navbar a {
+                    color: #ffffff;
+                }
+                .navbar a:hover {
+                    color: #f4f4f4;
+                    text-decoration: underline;
+                }
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }
+                .card {
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    border-radius: 10px;
+                    overflow: hidden;
+                }
+                .card-body {
+                    padding: 20px;
+                    background-color: #ffffff;
+                }
+                .fade-in {
+                    animation: fadeIn 1.5s ease-in;
+                }
+                @keyframes fadeIn {
+                    0% {
+                        opacity: 0;
+                    }
+                    100% {
+                        opacity: 1;
+                    }
+                }
+                /* Responsive Design */
+                @media (max-width: 768px) {
+                    .container {
+                        padding: 10px;
+                    }
+                }
+            </style>
+</head>
+<body>
+<!-- Header -->
+<header class="header" style="position: relative; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+<div class="logo">L'Oreal Paris - Admin</div>
+<nav class="nav">
+<a href="/">Về trang chủ</a>
+<span id="admin-greeting" style="margin-left: 20px; font-weight: bold;"></span>
+<a href="#" onclick="logout()" style="margin-left: 20px;">Đăng xuất</a>
+</nav>
+</header>
+<div class="admin-container" style="margin-top: 100px;">
+<!-- Admin Header -->
+<div class="admin-header">
+<h1 style="margin: 0; color: #2b6777;">Bảng điều khiển quản trị</h1>
+<p style="margin: 8px 0 0; color: #6b7280;">Quản lý sản phẩm, người dùng và đơn hàng</p>
+</div>
+<!-- Statistics -->
+<div class="admin-stats">
+<div class="admin-stat-card">
+<div class="admin-stat-number" id="total-products">0</div>
+<div class="admin-stat-label">Sản phẩm</div>
+</div>
+<div class="admin-stat-card">
+<div class="admin-stat-number" id="total-users">0</div>
+<div class="admin-stat-label">Người dùng</div>
+</div>
+<div class="admin-stat-card">
+<div class="admin-stat-number" id="total-orders">0</div>
+<div class="admin-stat-label">Đơn hàng</div>
+</div>
+<div class="admin-stat-card">
+<div class="admin-stat-number" id="total-contacts">0</div>
+<div class="admin-stat-label">Tin nhắn</div>
+</div>
+</div>
+<!-- Tabs -->
+<div class="admin-tabs">
+<button class="admin-tab active" onclick="switchTab('products')">Sản phẩm</button>
+<button class="admin-tab" onclick="switchTab('users')">Người dùng</button>
+<button class="admin-tab" onclick="switchTab('orders')">Đơn hàng</button>
+<button class="admin-tab" onclick="switchTab('contacts')">Tin nhắn</button>
+</div>
+<!-- Products Tab -->
+<div class="admin-content" id="products-tab">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+<h2 style="margin: 0;">Quản lý sản phẩm</h2>
+<button class="admin-btn primary" onclick="openProductModal()">Thêm sản phẩm</button>
+</div>
+<table class="admin-table" id="products-table">
+<thead>
+<tr>
+<th>ID</th>
+<th>Hình ảnh</th>
+<th>Tên sản phẩm</th>
+<th>Giá</th>
+<th>Danh mục</th>
+<th>Tồn kho</th>
+<th>Nổi bật</th>
+<th>Thao tác</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+<!-- Users Tab -->
+<div class="admin-content" id="users-tab" style="display: none;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+<h2 style="margin: 0;">Quản lý người dùng</h2>
+<button class="admin-btn primary" onclick="openUserModal()">Thêm người dùng</button>
+</div>
+<table class="admin-table" id="users-table">
+<thead>
+<tr>
+<th>ID</th>
+<th>Tên</th>
+<th>Liên hệ</th>
+<th>Quyền</th>
+<th>Ngày tạo</th>
+<th>Thao tác</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+<!-- Orders Tab -->
+<div class="admin-content" id="orders-tab" style="display: none;">
+<h2 style="margin: 0 0 20px;">Quản lý đơn hàng</h2>
+<table class="admin-table" id="orders-table">
+<thead>
+<tr>
+<th>ID</th>
+<th>Khách hàng</th>
+<th>Tổng tiền</th>
+<th>Trạng thái</th>
+<th>Ngày đặt</th>
+<th>Thao tác</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+<!-- Contacts Tab -->
+<div class="admin-content" id="contacts-tab" style="display: none;">
+<h2 style="margin: 0 0 20px;">Tin nhắn liên hệ</h2>
+<table class="admin-table" id="contacts-table">
+<thead>
+<tr>
+<th>ID</th>
+<th>Tên</th>
+<th>Liên hệ</th>
+<th>Tin nhắn</th>
+<th>Ngày gửi</th>
+<th>Trạng thái</th>
+<th>Thao tác</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+</div>
+<!-- Product Modal -->
+<div class="modal" id="product-modal">
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="product-modal-title">Thêm sản phẩm</h3>
+<button class="modal-close" onclick="closeProductModal()">×</button>
+</div>
+<form class="admin-form" id="product-form">
+<input id="product-id" type="hidden"/>
+<div class="admin-form-group">
+<label for="product-name">Tên sản phẩm</label>
+<input id="product-name" required="" type="text"/>
+</div>
+<div class="admin-form-group">
+<label for="product-price">Giá (VNĐ)</label>
+<input id="product-price" min="0" required="" type="number"/>
+</div>
+<div class="admin-form-group">
+<label for="product-category">Danh mục</label>
+<select id="product-category" required="">
+<option value="">Chọn danh mục</option>
+</select>
+</div>
+<div class="admin-form-group">
+<label for="product-stock">Số lượng tồn kho</label>
+<input id="product-stock" min="0" required="" type="number"/>
+</div>
+<div class="admin-form-group">
+<label for="product-image">URL hình ảnh</label>
+<input id="product-image" required="" type="url"/>
+</div>
+<div class="admin-form-group">
+<label for="product-description">Mô tả</label>
+<textarea id="product-description" rows="4"></textarea>
+</div>
+<div class="admin-form-group">
+<label>
+<input id="product-featured" type="checkbox"/> Sản phẩm nổi bật
+          </label>
+</div>
+<div style="display: flex; gap: 10px; justify-content: flex-end;">
+<button class="admin-btn" onclick="closeProductModal()" type="button">Hủy</button>
+<button class="admin-btn primary" type="submit">Lưu</button>
+</div>
+</form>
+</div>
+</div>
+<!-- User Modal -->
+<div class="modal" id="user-modal">
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="user-modal-title">Thêm người dùng</h3>
+<button class="modal-close" onclick="closeUserModal()">×</button>
+</div>
+<form class="admin-form" id="user-form">
+<input id="user-id" type="hidden"/>
+<div class="admin-form-group">
+<label for="user-name">Tên</label>
+<input id="user-name" required="" type="text"/>
+</div>
+<div class="admin-form-group">
+<label for="user-contact">Email/Số điện thoại</label>
+<input id="user-contact" required="" type="text"/>
+</div>
+<div class="admin-form-group">
+<label for="user-password">Mật khẩu</label>
+<input id="user-password" required="" type="password"/>
+</div>
+<div class="admin-form-group">
+<label>
+<input id="user-admin" type="checkbox"/> Quyền quản trị
+          </label>
+</div>
+<div style="display: flex; gap: 10px; justify-content: flex-end;">
+<button class="admin-btn" onclick="closeUserModal()" type="button">Hủy</button>
+<button class="admin-btn primary" type="submit">Lưu</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Order Details Modal -->
+<div class="modal" id="order-modal">
+<div class="modal-content">
+<div class="modal-header">
+<h3 class="modal-title" id="order-modal-title">Chi tiết đơn hàng</h3>
+<button class="modal-close" onclick="closeOrderModal()">×</button>
+</div>
+<div class="admin-form" id="order-details">
+<!-- Order details will be loaded here -->
+</div>
+<div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+<button class="admin-btn" onclick="closeOrderModal()" type="button">Đóng</button>
+</div>
+</div>
+</div>
+<script src="/static/js/main.js"></script>
+<script>
+    let currentTab = 'products';
+    let categories = [];
+
+    // Check admin access
+    async function checkAdminAccess() {
+      try {
+        const response = await fetch('/api/user');
+        if (response.ok) {
+          const user = await response.json();
+          if (!user.is_admin) {
+            toast.error('Bạn không có quyền truy cập trang này');
+            window.location.href = '/';
+            return false;
+          }
+          document.getElementById('admin-greeting').textContent = `Xin chào, ${user.name}`;
+          return true;
+        } else {
+          toast.error('Vui lòng đăng nhập');
+          window.location.href = '/login';
+          return false;
+        }
+      } catch (error) {
+        toast.error('Có lỗi xảy ra');
+        window.location.href = '/';
+        return false;
+      }
+    }
+
+    // Logout
+    async function logout() {
+      try {
+        await fetch('/api/logout', { method: 'POST' });
+        toast.success('Đăng xuất thành công');
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1000);
+      } catch (error) {
+        toast.error('Có lỗi xảy ra khi đăng xuất');
+      }
+    }
+
+    // Switch tabs
+    function switchTab(tab) {
+      // Update tab buttons
+      document.querySelectorAll('.admin-tab').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      // Hide all tab contents
+      document.querySelectorAll('[id$="-tab"]').forEach(content => content.style.display = 'none');
+      
+      // Show selected tab
+      document.getElementById(tab + '-tab').style.display = 'block';
+      currentTab = tab;
+      
+      // Load data for the tab
+      loadTabData(tab);
+    }
+
+    // Load data for specific tab
+    async function loadTabData(tab) {
+      switch(tab) {
+        case 'products':
+          await loadProducts();
+          break;
+        case 'users':
+          await loadUsers();
+          break;
+        case 'orders':
+          await loadOrders();
+          break;
+        case 'contacts':
+          await loadContacts();
+          break;
+      }
+    }
+
+    // Load statistics
+    async function loadStats() {
+      try {
+        const [productsRes, usersRes, ordersRes, contactsRes] = await Promise.all([
+          fetch('/api/admin/stats/products'),
+          fetch('/api/admin/stats/users'),
+          fetch('/api/admin/stats/orders'),
+          fetch('/api/admin/stats/contacts')
+        ]);
+
+        if (productsRes.ok) {
+          const data = await productsRes.json();
+          document.getElementById('total-products').textContent = data.count;
+        }
+        if (usersRes.ok) {
+          const data = await usersRes.json();
+          document.getElementById('total-users').textContent = data.count;
+        }
+        if (ordersRes.ok) {
+          const data = await ordersRes.json();
+          document.getElementById('total-orders').textContent = data.count;
+        }
+        if (contactsRes.ok) {
+          const data = await contactsRes.json();
+          document.getElementById('total-contacts').textContent = data.count;
+        }
+      } catch (error) {
+        console.error('Error loading stats:', error);
+      }
+    }
+
+    // Load categories
+    async function loadCategories() {
+      try {
+        const response = await fetch('/api/categories');
+        if (response.ok) {
+          categories = await response.json();
+          const select = document.getElementById('product-category');
+          select.innerHTML = '<option value="">Chọn danh mục</option>';
+          categories.forEach(cat => {
+            select.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
+          });
+        }
+      } catch (error) {
+        console.error('Error loading categories:', error);
+      }
+    }
+
+    // Load products
+    async function loadProducts() {
+      try {
+        const response = await fetch('/api/admin/products');
+        if (response.ok) {
+          const products = await response.json();
+          const tbody = document.querySelector('#products-table tbody');
+          tbody.innerHTML = '';
+          
+          products.forEach(product => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${product.id}</td>
+              <td><img src="${product.image_url}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
+              <td>${product.name}</td>
+              <td>${product.price.toLocaleString()}₫</td>
+              <td>${product.category_name}</td>
+              <td>${product.stock_quantity}</td>
+              <td>${product.is_featured ? '✅' : '❌'}</td>
+              <td>
+                <button class="admin-btn primary" onclick="editProduct(${product.id})">Sửa</button>
+                <button class="admin-btn danger" onclick="deleteProduct(${product.id})">Xóa</button>
+              </td>
+            `;
+            tbody.appendChild(row);
+          });
+        }
+      } catch (error) {
+        toast.error('Không thể tải danh sách sản phẩm');
+      }
+    }
+
+    // Load users
+    async function loadUsers() {
+      try {
+        const response = await fetch('/api/admin/users');
+        if (response.ok) {
+          const users = await response.json();
+          const tbody = document.querySelector('#users-table tbody');
+          tbody.innerHTML = '';
+          
+          users.forEach(user => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${user.id}</td>
+              <td>${user.name}</td>
+              <td>${user.contact}</td>
+              <td>${user.is_admin ? 'Admin' : 'User'}</td>
+              <td>${new Date(user.created_at).toLocaleDateString('vi-VN')}</td>
+              <td>
+                <button class="admin-btn primary" onclick="editUser(${user.id})">Sửa</button>
+                <button class="admin-btn danger" onclick="deleteUser(${user.id})" ${user.is_admin ? 'disabled' : ''}>Xóa</button>
+              </td>
+            `;
+            tbody.appendChild(row);
+          });
+        }
+      } catch (error) {
+        toast.error('Không thể tải danh sách người dùng');
+      }
+    }
+
+    // Load orders
+    async function loadOrders() {
+      try {
+        const response = await fetch('/api/admin/orders');
+        if (response.ok) {
+          const orders = await response.json();
+          const tbody = document.querySelector('#orders-table tbody');
+          tbody.innerHTML = '';
+          
+          orders.forEach(order => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${order.id}</td>
+              <td>${order.customer_name}</td>
+              <td>${order.total_amount.toLocaleString()}₫</td>
+              <td>
+                <select onchange="updateOrderStatus(${order.id}, this.value)">
+                  <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Chờ xử lý</option>
+                  <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Đang xử lý</option>
+                  <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Đã gửi</option>
+                  <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Đã giao</option>
+                  <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Đã hủy</option>
+                </select>
+              </td>
+              <td>${new Date(order.created_at).toLocaleDateString('vi-VN')}</td>
+              <td>
+                <button class="admin-btn primary" onclick="viewOrderDetails(${order.id})">Chi tiết</button>
+              </td>
+            `;
+            tbody.appendChild(row);
+          });
+        }
+      } catch (error) {
+        toast.error('Không thể tải danh sách đơn hàng');
+      }
+    }
+
+    // Load contacts
+    async function loadContacts() {
+      try {
+        const response = await fetch('/api/admin/contacts');
+        if (response.ok) {
+          const contacts = await response.json();
+          const tbody = document.querySelector('#contacts-table tbody');
+          tbody.innerHTML = '';
+          
+          contacts.forEach(contact => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${contact.id}</td>
+              <td>${contact.name}</td>
+              <td>${contact.contact}</td>
+              <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${contact.message}</td>
+              <td>${new Date(contact.created_at).toLocaleDateString('vi-VN')}</td>
+              <td>${contact.is_read ? '✅ Đã đọc' : '📧 Chưa đọc'}</td>
+              <td>
+                <button class="admin-btn primary" onclick="markAsRead(${contact.id})" ${contact.is_read ? 'disabled' : ''}>Đánh dấu đã đọc</button>
+              </td>
+            `;
+            tbody.appendChild(row);
+          });
+        }
+      } catch (error) {
+        toast.error('Không thể tải danh sách tin nhắn');
+      }
+    }
+
+    // Product Modal Functions
+    function openProductModal(productId = null) {
+      const modal = document.getElementById('product-modal');
+      const title = document.getElementById('product-modal-title');
+      const form = document.getElementById('product-form');
+      
+      if (productId) {
+        title.textContent = 'Sửa sản phẩm';
+        loadProductData(productId);
+      } else {
+        title.textContent = 'Thêm sản phẩm';
+        form.reset();
+        document.getElementById('product-id').value = '';
+      }
+      
+      modal.classList.add('show');
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-modal').classList.remove('show');
+    }
+
+    async function loadProductData(productId) {
+      try {
+        const response = await fetch(`/api/products/${productId}`);
+        if (response.ok) {
+          const product = await response.json();
+          document.getElementById('product-id').value = product.id;
+          document.getElementById('product-name').value = product.name;
+          document.getElementById('product-price').value = product.price;
+          document.getElementById('product-category').value = product.category_id;
+          document.getElementById('product-stock').value = product.stock_quantity;
+          document.getElementById('product-image').value = product.image_url;
+          document.getElementById('product-description').value = product.description;
+          document.getElementById('product-featured').checked = product.is_featured;
+        }
+      } catch (error) {
+        toast.error('Không thể tải thông tin sản phẩm');
+      }
+    }
+
+    // User Modal Functions
+    function openUserModal(userId = null) {
+      const modal = document.getElementById('user-modal');
+      const title = document.getElementById('user-modal-title');
+      const form = document.getElementById('user-form');
+      
+      if (userId) {
+        title.textContent = 'Sửa người dùng';
+        loadUserData(userId);
+      } else {
+        title.textContent = 'Thêm người dùng';
+        form.reset();
+        document.getElementById('user-id').value = '';
+      }
+      
+      modal.classList.add('show');
+    }
+
+    function closeUserModal() {
+      document.getElementById('user-modal').classList.remove('show');
+    }
+
+    async function loadUserData(userId) {
+      try {
+        const response = await fetch(`/api/admin/users/${userId}`);
+        if (response.ok) {
+          const user = await response.json();
+          document.getElementById('user-id').value = user.id;
+          document.getElementById('user-name').value = user.name;
+          document.getElementById('user-contact').value = user.contact;
+          document.getElementById('user-password').value = '';
+          document.getElementById('user-admin').checked = user.is_admin;
+        }
+      } catch (error) {
+        toast.error('Không thể tải thông tin người dùng');
+      }
+    }
+
+    // Order Modal Functions
+    function openOrderModal() {
+      document.getElementById('order-modal').classList.add('show');
+    }
+
+    function closeOrderModal() {
+      document.getElementById('order-modal').classList.remove('show');
+    }
+
+    // Form submissions
+    document.getElementById('product-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const productId = document.getElementById('product-id').value;
+      const formData = {
+        name: document.getElementById('product-name').value,
+        price: parseFloat(document.getElementById('product-price').value),
+        category_id: parseInt(document.getElementById('product-category').value),
+        stock_quantity: parseInt(document.getElementById('product-stock').value),
+        image_url: document.getElementById('product-image').value,
+        description: document.getElementById('product-description').value,
+        is_featured: document.getElementById('product-featured').checked
+      };
+      
+      try {
+        const url = productId ? `/api/admin/products/${productId}` : '/api/admin/products';
+        const method = productId ? 'PUT' : 'POST';
+        
+        const response = await fetch(url, {
+          method: method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+        
+        if (response.ok) {
+          toast.success(productId ? 'Cập nhật sản phẩm thành công' : 'Thêm sản phẩm thành công');
+          closeProductModal();
+          loadProducts();
+          loadStats();
+        } else {
+          const error = await response.json();
+          toast.error(error.error || 'Có lỗi xảy ra');
+        }
+      } catch (error) {
+        toast.error('Có lỗi xảy ra khi lưu sản phẩm');
+      }
+    });
+
+    document.getElementById('user-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const userId = document.getElementById('user-id').value;
+      const formData = {
+        name: document.getElementById('user-name').value,
+        contact: document.getElementById('user-contact').value,
+        password: document.getElementById('user-password').value,
+        is_admin: document.getElementById('user-admin').checked
+      };
+      
+      try {
+        const url = userId ? `/api/admin/users/${userId}` : '/api/admin/users';
+        const method = userId ? 'PUT' : 'POST';
+        
+        const response = await fetch(url, {
+          method: method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+        
+        if (response.ok) {
+          toast.success(userId ? 'Cập nhật người dùng thành công' : 'Thêm người dùng thành công');
+          closeUserModal();
+          loadUsers();
+          loadStats();
+        } else {
+          const error = await response.json();
+          toast.error(error.error || 'Có lỗi xảy ra');
+        }
+      } catch (error) {
+        toast.error('Có lỗi xảy ra khi lưu người dùng');
+      }
+    });
+
+    // Edit functions
+    function editProduct(productId) {
+      openProductModal(productId);
+    }
+
+    function editUser(userId) {
+      openUserModal(userId);
+    }
+
+    // Delete functions
+    async function deleteProduct(productId) {
+      if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+        try {
+          const response = await fetch(`/api/admin/products/${productId}`, {
+            method: 'DELETE'
+          });
+          
+          if (response.ok) {
+            toast.success('Xóa sản phẩm thành công');
+            loadProducts();
+            loadStats();
+          } else {
+            const error = await response.json();
+            toast.error(error.error || 'Có lỗi xảy ra');
+          }
+        } catch (error) {
+          toast.error('Có lỗi xảy ra khi xóa sản phẩm');
+        }
+      }
+    }
+
+    async function deleteUser(userId) {
+      if (confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
+        try {
+          const response = await fetch(`/api/admin/users/${userId}`, {
+            method: 'DELETE'
+          });
+          
+          if (response.ok) {
+            toast.success('Xóa người dùng thành công');
+            loadUsers();
+            loadStats();
+          } else {
+            const error = await response.json();
+            toast.error(error.error || 'Có lỗi xảy ra');
+          }
+        } catch (error) {
+          toast.error('Có lỗi xảy ra khi xóa người dùng');
+        }
+      }
+    }
+
+    // Update order status
+    async function updateOrderStatus(orderId, status) {
+      try {
+        const response = await fetch(`/api/admin/orders/${orderId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: status })
+        });
+        
+        if (response.ok) {
+          toast.success('Cập nhật trạng thái đơn hàng thành công');
+        } else {
+          const error = await response.json();
+          toast.error(error.error || 'Có lỗi xảy ra');
+          loadOrders(); // Reload to reset the select
+        }
+      } catch (error) {
+        toast.error('Có lỗi xảy ra khi cập nhật trạng thái');
+        loadOrders();
+      }
+    }
+
+    // Mark contact as read
+    async function markAsRead(contactId) {
+      try {
+        const response = await fetch(`/api/admin/contacts/${contactId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ is_read: true })
+        });
+        
+        if (response.ok) {
+          toast.success('Đã đánh dấu tin nhắn là đã đọc');
+          loadContacts();
+          loadStats();
+        } else {
+          const error = await response.json();
+          toast.error(error.error || 'Có lỗi xảy ra');
+        }
+      } catch (error) {
+        toast.error('Có lỗi xảy ra');
+      }
+    }
+
+    // View order details with modal
+    async function viewOrderDetails(orderId) {
+      try {
+        const response = await fetch(`/api/admin/orders/${orderId}/details`);
+        if (response.ok) {
+          const order = await response.json();
+          
+          document.getElementById('order-modal-title').textContent = `Chi tiết đơn hàng #${order.id}`;
+          
+          const orderDetailsHtml = `
+            <div class="admin-form-group">
+              <label><strong>Thông tin khách hàng</strong></label>
+              <div style="background: #f9fafb; padding: 15px; border-radius: 6px; margin-top: 5px;">
+                <p style="margin: 5px 0;"><strong>Tên:</strong> ${order.customer_name}</p>
+                <p style="margin: 5px 0;"><strong>Điện thoại:</strong> ${order.customer_phone}</p>
+                <p style="margin: 5px 0;"><strong>Địa chỉ:</strong> ${order.delivery_address}</p>
+              </div>
+            </div>
+            
+            <div class="admin-form-group">
+              <label><strong>Thông tin đơn hàng</strong></label>
+              <div style="background: #f9fafb; padding: 15px; border-radius: 6px; margin-top: 5px;">
+                <p style="margin: 5px 0;"><strong>Phương thức thanh toán:</strong> ${order.payment_method}</p>
+                <p style="margin: 5px 0;"><strong>Trạng thái:</strong> ${order.status}</p>
+                <p style="margin: 5px 0;"><strong>Ngày đặt:</strong> ${new Date(order.created_at).toLocaleDateString('vi-VN')}</p>
+                <p style="margin: 5px 0;"><strong>Tổng tiền:</strong> <span style="color: #e91e63; font-weight: bold;">${order.total_amount.toLocaleString()}₫</span></p>
+              </div>
+            </div>
+            
+            <div class="admin-form-group">
+              <label><strong>Sản phẩm đã đặt</strong></label>
+              <div style="background: #f9fafb; padding: 15px; border-radius: 6px; margin-top: 5px;">
+                ${order.items.map(item => `
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                    <div>
+                      <strong>${item.product_name}</strong><br>
+                      <small>Số lượng: ${item.quantity}</small>
+                    </div>
+                    <div style="text-align: right;">
+                      <div>${item.price.toLocaleString()}₫ x ${item.quantity}</div>
+                      <div style="font-weight: bold; color: #e91e63;">${(item.price * item.quantity).toLocaleString()}₫</div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+          
+          document.getElementById('order-details').innerHTML = orderDetailsHtml;
+          openOrderModal();
+        }
+      } catch (error) {
+        toast.error('Không thể tải chi tiết đơn hàng');
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', async function() {
+      const hasAccess = await checkAdminAccess();
+      if (hasAccess) {
+        await loadCategories();
+        await loadStats();
+        await loadProducts();
+      }
+    });
+  </script>
+</body>
+</html>

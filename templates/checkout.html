@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<title>Thanh toán - L'Oreal Paris</title>
+<style>
+    body { 
+      font-family: 'Segoe UI', sans-serif; 
+      padding: 20px; 
+      background: #f3f7f9; 
+    }
+    .container {
+      max-width: 800px; 
+      margin: auto; 
+      background: #fff;
+      padding: 30px; 
+      border-radius: 10px; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    h1 { 
+      color: #2b6777; 
+      margin-bottom: 20px; 
+    }
+    .product-item {
+      border-bottom: 1px solid #eee; 
+      padding: 10px 0;
+    }
+    .total { 
+      font-size: 18px; 
+      color: #e91e63; 
+      font-weight: bold; 
+      margin-top: 10px; 
+    }
+    label { 
+      display: block; 
+      margin: 12px 0 4px; 
+      font-weight: bold; 
+    }
+    input, select {
+      width: 100%; 
+      padding: 10px; 
+      border: 1px solid #ccc;
+      border-radius: 6px; 
+      box-sizing: border-box;
+    }
+    .submit-btn {
+      background: #2b6777; 
+      color: white; 
+      padding: 12px 24px;
+      border: none; 
+      border-radius: 6px; 
+      font-weight: bold;
+      cursor: pointer; 
+      margin-top: 20px; 
+      width: 100%;
+    }
+    .submit-btn:hover { 
+      background: #24596a; 
+    }
+    .back-link {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      color: #2b6777;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Toast styles */
+    #toast-container {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .toast {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      margin-bottom: 10px;
+      overflow: hidden;
+      position: relative;
+      width: 300px;
+    }
+
+    .toast.success {
+      border-left: 5px solid #5cb85c;
+    }
+
+    .toast.error {
+      border-left: 5px solid #d9534f;
+    }
+
+    .toast.warning {
+      border-left: 5px solid #f0ad4e;
+    }
+
+    .toast-body {
+      padding: 15px;
+    }
+
+    .toast-close {
+      background: 0 0;
+      border: 0;
+      color: #000;
+      cursor: pointer;
+      float: right;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+      opacity: .3;
+      text-shadow: 0 1px 0 #fff;
+      padding: 0 5px;
+    }
+
+    .toast-close:focus, .toast-close:hover {
+      color: #000;
+      opacity: .5;
+      text-decoration: none;
+    }
+  
+                /* Custom CSS Improvements */
+                body {
+                    font-family: 'Segoe UI', sans-serif;
+                    background-color: #f4f7f6;
+                    color: #333;
+                    margin: 0;
+                    padding: 0;
+                    transition: all 0.3s ease;
+                }
+                h1, h2, h3 {
+                    color: #333;
+                    font-weight: bold;
+                }
+                .btn:hover {
+                    background-color: #007bff;
+                    color: white;
+                    transition: all 0.3s ease;
+                }
+                .navbar {
+                    background-color: #003366;
+                }
+                .navbar a {
+                    color: #ffffff;
+                }
+                .navbar a:hover {
+                    color: #f4f4f4;
+                    text-decoration: underline;
+                }
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }
+                .card {
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    border-radius: 10px;
+                    overflow: hidden;
+                }
+                .card-body {
+                    padding: 20px;
+                    background-color: #ffffff;
+                }
+                .fade-in {
+                    animation: fadeIn 1.5s ease-in;
+                }
+                @keyframes fadeIn {
+                    0% {
+                        opacity: 0;
+                    }
+                    100% {
+                        opacity: 1;
+                    }
+                }
+                /* Responsive Design */
+                @media (max-width: 768px) {
+                    .container {
+                        padding: 10px;
+                    }
+                }
+            </style>
+</head>
+<body>
+<div class="container">
+<h1>Thông tin thanh toán</h1>
+<div id="checkout-items"></div>
+<div class="total" id="checkout-total"></div>
+<form id="checkout-form">
+<label for="name">Họ và tên</label>
+<input id="name" required="" type="text"/>
+<label for="phone">Số điện thoại</label>
+<input id="phone" pattern="[0-9]{10,11}" required="" type="tel"/>
+<label for="address">Địa chỉ nhận hàng</label>
+<input id="address" required="" type="text"/>
+<label for="payment">Phương thức thanh toán</label>
+<select id="payment" required="">
+<option value="">-- Chọn phương thức --</option>
+<option value="cod">Tiền mặt khi nhận hàng (COD)</option>
+<option value="card">Thẻ ngân hàng</option>
+<option value="e-wallet">Ví điện tử (Momo, ZaloPay...)</option>
+</select>
+<!-- Thẻ ngân hàng -->
+<div id="card-info" style="display:none; margin-top: 20px;">
+<label for="cardName">Tên chủ thẻ</label>
+<input id="cardName" type="text"/>
+<label for="cardNumber">Số thẻ</label>
+<input id="cardNumber" maxlength="16" pattern="[0-9]{16}" placeholder="1234567812345678" type="text"/>
+<label for="cardExpiry">Ngày hết hạn (MM/YY)</label>
+<input id="cardExpiry" pattern="^(0[1-9]|1[0-2])\/\d{2}$" placeholder="MM/YY" type="text"/>
+<label for="cardCVV">Mã CVV</label>
+<input id="cardCVV" maxlength="3" pattern="[0-9]{3}" type="text"/>
+</div>
+<!-- Ví điện tử -->
+<div id="wallet-info" style="display:none; margin-top: 20px;">
+<label for="walletType">Chọn ví điện tử</label>
+<select id="walletType">
+<option value="">-- Chọn ví --</option>
+<option value="momo">Momo</option>
+<option value="zalopay">ZaloPay</option>
+<option value="shopeepay">ShopeePay</option>
+</select>
+<label for="walletPhone">Số điện thoại liên kết ví</label>
+<input id="walletPhone" pattern="[0-9]{10,11}" type="tel"/>
+</div>
+<button class="submit-btn" type="submit">Xác nhận đặt hàng</button>
+</form>
+<a class="back-link" href="/cart">Quay lại giỏ hàng</a>
+</div>
+<div id="toast-container"></div>
+<script>
+    // Kiểm tra trạng thái đăng nhập
+    async function checkLoginStatus() {
+      try {
+        const response = await fetch('/api/user');
+        if (response.ok) {
+          const user = await response.json();
+          // Tự động điền thông tin người dùng
+          document.getElementById('name').value = user.name;
+        } else {
+          // Nếu chưa đăng nhập, chuyển về trang đăng nhập
+          window.location.href = '/login?redirect=/checkout';
+        }
+      } catch (error) {
+        console.error('Error checking login status:', error);
+        window.location.href = '/login?redirect=/checkout';
+      }
+    }
+
+    // Tải giỏ hàng
+    async function loadCart() {
+      try {
+        const response = await fetch('/api/cart');
+        if (!response.ok) {
+          throw new Error('Không thể tải giỏ hàng');
+        }
+        
+        const cartItems = await response.json();
+        const itemsDiv = document.getElementById("checkout-items");
+        const totalDiv = document.getElementById("checkout-total");
+        const form = document.getElementById("checkout-form");
+
+        if (cartItems.length === 0) {
+          itemsDiv.innerHTML = "<p>Giỏ hàng của bạn đang trống.</p>";
+          totalDiv.textContent = "";
+          form.style.display = "none";
+          return;
+        }
+
+        let total = 0;
+        cartItems.forEach(item => {
+          const itemTotal = item.product.price * item.quantity;
+          total += itemTotal;
+
+          const itemEl = document.createElement("div");
+          itemEl.className = "product-item";
+          itemEl.textContent = `${item.product.name} x ${item.quantity} = ${itemTotal.toLocaleString()}₫`;
+          itemsDiv.appendChild(itemEl);
+        });
+        
+        totalDiv.textContent = `Tổng cộng: ${total.toLocaleString()}₫`;
+      } catch (error) {
+        console.error('Error loading cart:', error);
+        alert('Không thể tải giỏ hàng. Vui lòng thử lại sau.');
+      }
+    }
+
+    // Hiển thị ẩn/hiện tùy phương thức thanh toán
+    const paymentSelect = document.getElementById("payment");
+    const cardFields = document.getElementById("card-info");
+    const walletFields = document.getElementById("wallet-info");
+
+    paymentSelect.addEventListener("change", function () {
+      cardFields.style.display = this.value === "card" ? "block" : "none";
+      walletFields.style.display = this.value === "e-wallet" ? "block" : "none";
+    });
+
+    function isValidExpiry(expiry) {
+      const [monthStr, yearStr] = expiry.split('/');
+      const month = parseInt(monthStr, 10);
+      const year = parseInt("20" + yearStr, 10);
+      if (isNaN(month) || isNaN(year)) return false;
+
+      const today = new Date();
+      const expiryDate = new Date(year, month); // hết hạn vào đầu tháng sau
+      return expiryDate > today;
+    }
+
+    function showAlert(message, type = 'success') {
+      const toastContainer = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div class="toast-body">${message}</div>
+        <button class="toast-close">&times;</button>
+      `;
+
+      toastContainer.appendChild(toast);
+
+      const closeButton = toast.querySelector('.toast-close');
+      closeButton.addEventListener('click', () => {
+        toast.remove();
+      });
+
+      // Tự động ẩn sau 3 giây
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+    // Xử lý đặt hàng
+    document.getElementById("checkout-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const payment = paymentSelect.value;
+
+      if (!name || !phone || !address || !payment) {
+        showAlert("Vui lòng điền đầy đủ thông tin.", "warning");
+        return;
+      }
+
+      if (payment === "card") {
+        const cardName = document.getElementById("cardName").value.trim();
+        const cardNumber = document.getElementById("cardNumber").value.trim();
+        const cardExpiry = document.getElementById("cardExpiry").value.trim();
+        const cardCVV = document.getElementById("cardCVV").value.trim();
+        if (!cardName || !cardNumber || !cardExpiry || !cardCVV) {
+          showAlert("Vui lòng nhập đầy đủ thông tin thẻ ngân hàng.", "warning");
+          return;
+        }
+        if (!isValidExpiry(cardExpiry)) {
+          showAlert("Ngày hết hạn thẻ không hợp lệ hoặc đã quá hạn.", "error");
+          return;
+        }
+      }
+
+      if (payment === "e-wallet") {
+        const walletType = document.getElementById("walletType").value;
+        const walletPhone = document.getElementById("walletPhone").value.trim();
+        if (!walletType || !walletPhone) {
+          showAlert("Vui lòng chọn ví điện tử và nhập số điện thoại liên kết.", "warning");
+          return;
+        }
+      }
+
+      try {
+        const response = await fetch('/api/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            customer_name: name,
+            customer_phone: phone,
+            delivery_address: address,
+            payment_method: payment
+          })
+        });
+
+        const result = await response.json();
+        
+        if (response.ok) {
+          showAlert("✅ Đặt hàng thành công!\nCảm ơn bạn đã mua hàng tại L'Oreal Paris.", "success");
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 2000);
+        } else {
+          showAlert(result.error || "Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại.", "error");
+        }
+      } catch (error) {
+        console.error('Error placing order:', error);
+        showAlert("Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại.", "error");
+      }
+    });
+
+    // Khởi tạo trang
+    document.addEventListener('DOMContentLoaded', function() {
+      checkLoginStatus();
+      loadCart();
+    });
+  </script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>
